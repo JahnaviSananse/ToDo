@@ -13,3 +13,13 @@ export const deleteItem = id => ({
 export const deleteAll = () => ({
   type: DISPLAY_TYPE.DELETE_ALL,
 });
+
+export const checkItem = id => ({
+  type: DISPLAY_TYPE.CHECK_ITEM,
+  payload: id,
+});
+
+export const checkAllItem = state => ({
+  type: DISPLAY_TYPE.CHECK_ALL,
+  payload: state,
+});

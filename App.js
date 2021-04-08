@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
+// import CheckBox from 'react-native-check-box';
+import CheckBox from '@react-native-community/checkbox';
 
 import {
   Button,
@@ -19,12 +21,16 @@ import {
   submitItem,
   deleteItem,
   deleteAll,
+  checkItem,
+  checkAllItem,
 } from './Redux/DispalyItem/display.actions';
 const App = props => {
   const [data, setData] = useState('');
+  const [isSelected, setIsSelected] = useState(false);
+
   const onAddItemPress = () => {
     props.setItem(data);
-    props.submit({id: Math.random(), data: data});
+    props.submit({id: Math.random(), data: data, checked: false});
     // props.submit(data);
   };
   // const deletePressed = id => {
@@ -32,6 +38,11 @@ const App = props => {
   // };
   const onDeleteAllPressed = () => {
     props.deleteAllItem();
+  };
+  const multipleCheck = () => {
+    setIsSelected(!isSelected);
+    props.checkAllData(isSelected);
+    return;
   };
   const renderList = ({item}) => {
     return (
@@ -41,7 +52,13 @@ const App = props => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginVertical: 10,
+            flex: 3,
           }}>
+          {/* single check  */}
+          <CheckBox
+            onValueChange={() => props.checkData(item.id)}
+            value={item.checked}
+          />
           <Text style={{fontSize: 20}}>{item.data}</Text>
           <TouchableOpacity
             style={{width: '20%', height: '100%'}}
@@ -71,6 +88,9 @@ const App = props => {
           onChangeText={text => setData(text)}
         />
       </View>
+
+      {/* multiple check */}
+      <CheckBox value={isSelected} onValueChange={multipleCheck} />
       <View
         style={{
           flexDirection: 'row',
@@ -80,7 +100,7 @@ const App = props => {
         <TouchableOpacity onPress={onAddItemPress}>
           <Text
             style={{
-              fontSize: 35,
+              fontSize: 20,
               textAlign: 'center',
               backgroundColor: 'yellow',
               width: '100%',
@@ -124,6 +144,9 @@ const styles = StyleSheet.create({
     width: '75%',
     borderWidth: 1,
   },
+  checkbox: {
+    alignSelf: 'center',
+  },
 });
 const mapSateToProps = fetch => ({
   getItem: fetch.itemList.item,
@@ -135,6 +158,8 @@ const mapDispatchToProps = dispatch => ({
   submit: item => dispatch(submitItem(item)),
   deleteItem: item => dispatch(deleteItem(item)),
   deleteAllItem: () => dispatch(deleteAll()),
+  checkData: item => dispatch(checkItem(item)),
+  checkAllData: state => dispatch(checkAllItem(state)),
 });
 
 export default connect(mapSateToProps, mapDispatchToProps)(App);
