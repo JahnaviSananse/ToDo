@@ -23,3 +23,13 @@ export const checkAllItem = state => ({
   type: DISPLAY_TYPE.CHECK_ALL,
   payload: state,
 });
+
+export const updateData = item => ({
+  type: DISPLAY_TYPE.UPDATE_DATA,
+  payload: item,
+});
+
+export const updateFlag = update => ({
+  type: DISPLAY_TYPE.UPDATE_FLAG,
+  payload: update,
+});
