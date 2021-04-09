@@ -25,6 +25,7 @@ import {
   checkAllItem,
   updateData,
   updateFlag,
+  apiCall,
 } from './Redux/DispalyItem/display.actions';
 const App = props => {
   const [data, setData] = useState('');
@@ -32,6 +33,26 @@ const App = props => {
   const [search, setSearch] = useState('');
   const [update, setupdadte] = useState('');
   let ary = [];
+
+  //API call using FETCH
+
+  // useEffect(() => {
+  //   fetch('https://jsonplaceholder.typicode.com/todos')
+  //     .then(response => response.json())
+  //     .then(json => props.apiCall(json));
+  // }, []);
+
+  //API call using ASYNC AWAIT
+
+  useEffect(() => {
+    async function apiDemo() {
+      let apiResult = await fetch('https://jsonplaceholder.typicode.com/todos');
+      let json = await apiResult.json();
+      let data = await json;
+      alert(data);
+    }
+    apiDemo();
+  }, []);
 
   const onAddItemPress = () => {
     props.setItem(data);
@@ -89,7 +110,12 @@ const App = props => {
             marginVertical: 10,
             flex: 3,
           }}>
+          {console.log(
+            'this is API data ===============>>>>>>>>',
+            props.getApi,
+          )}
           {/* single check  */}
+
           <CheckBox
             onValueChange={() => props.checkData(item.id)}
             value={item.checked}
@@ -248,6 +274,7 @@ const mapSateToProps = fetch => ({
   getItem: fetch.itemList.item,
   getSubmittedItem: fetch.submitList.item,
   getUpdatedData: fetch.submitList.item,
+  getApi: fetch.submitList.api_ary,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -259,6 +286,7 @@ const mapDispatchToProps = dispatch => ({
   checkAllData: state => dispatch(checkAllItem(state)),
   updateMyData: data => dispatch(updateData(data)),
   updateFlag: data => dispatch(updateFlag(data)),
+  apiCall: data => dispatch(apiCall(data)),
 });
 
 export default connect(mapSateToProps, mapDispatchToProps)(App);

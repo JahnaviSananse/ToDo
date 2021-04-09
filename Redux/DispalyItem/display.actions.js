@@ -33,3 +33,8 @@ export const updateFlag = update => ({
   type: DISPLAY_TYPE.UPDATE_FLAG,
   payload: update,
 });
+
+export const apiCall = link => ({
+  type: DISPLAY_TYPE.API_CALL,
+  payload: link,
+});

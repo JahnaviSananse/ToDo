@@ -2,6 +2,7 @@ import {DISPLAY_TYPE} from './display.types';
 
 const INITIAL_STATE = {
   item: [],
+  api_ary: [],
 };
 
 const deleteData = (mainData, id) => {
@@ -80,6 +81,11 @@ const displayReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         item: updateFlagData(state.item, action.payload),
+      };
+    case DISPLAY_TYPE.API_CALL:
+      return {
+        ...state,
+        api_ary: action.payload,
       };
 
     default:
